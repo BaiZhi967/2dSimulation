@@ -18,6 +18,7 @@ namespace QFramework
     [MonoSingletonPath("[Framework]/ResMgr")]
     public class ResMgr : MonoBehaviour,ISingleton
     {
+        public bool isOnGuiDebug = false;
         public static ResMgr Instance => MonoSingletonProperty<ResMgr>.Instance;
 
         #region ID:RKRM001 Init v0.1.0 Unity5.5.1p4
@@ -248,7 +249,8 @@ namespace QFramework
 
         private void OnGUI()
         {
-            if (PlatformCheck.IsEditor && Input.GetKey(KeyCode.F1))
+            
+            if (PlatformCheck.IsEditor && isOnGuiDebug)
             {
                 GUILayout.BeginVertical("box");
 
