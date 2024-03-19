@@ -13,7 +13,7 @@ namespace WhiteZhi.SimulationGame
 		public float walkSpeed;
 		public Vector2 inputDirection;
 		public Vector2 realDirection;
-
+                       
 		private void Awake()
 		{
 			playerInput = new PlayerInput();
