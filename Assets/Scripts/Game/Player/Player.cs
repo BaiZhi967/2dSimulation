@@ -33,6 +33,7 @@ namespace WhiteZhi.SimulationGame
 		private void OnEnable()
 		{
 			playerInput.Enable();
+			
 		}
 
 		private void OnDisable()
