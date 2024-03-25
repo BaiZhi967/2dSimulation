@@ -1,6 +1,8 @@
 using System;
 using UnityEngine;
 using QFramework;
+using UnityEngine.InputSystem;
+using UnityEngine.Tilemaps;
 
 // 1.请在菜单 编辑器扩展/Namespace Settings 里设置命名空间
 // 2.命名空间更改后，生成代码之后，需要把逻辑代码文件（非 Designer）的命名空间手动更改
@@ -9,10 +11,12 @@ namespace WhiteZhi.SimulationGame
 	public partial class Player : ViewController
 	{
 		public PlayerInput playerInput;
-
 		public float walkSpeed;
 		public Vector2 inputDirection;
 		public Vector2 realDirection;
+
+		public Grid grid;
+		public Tilemap tilemap;
                        
 		private void Awake()
 		{
@@ -23,7 +27,10 @@ namespace WhiteZhi.SimulationGame
 		{
 			//获取玩家移动输入
 			inputDirection = playerInput.Game.Move.ReadValue<Vector2>();
+
+			
 		}
+
 
 		private void FixedUpdate()
 		{
@@ -31,17 +38,26 @@ namespace WhiteZhi.SimulationGame
 		}
 
 		private void OnEnable()
-		{
+		{ 
 			playerInput.Enable();
-			
+			playerInput.Game.Use.started += OnPlayerUseTool;
 		}
 
 		private void OnDisable()
 		{
 			playerInput.Disable();
+			playerInput.Game.Use.started -= OnPlayerUseTool;
 		}
 
-		
+		///<summary>
+		/// 玩家使用工具 （左键）
+		/// </summary>
+		private void OnPlayerUseTool(InputAction.CallbackContext obj)
+		{
+			var cellPosition = grid.WorldToCell(transform.position);
+			var tile = tilemap.GetTile(cellPosition);
+			tilemap.SetTile(cellPosition,null);
+		}
 		
 		/// <summary>
 		/// 玩家移动逻辑的处理
