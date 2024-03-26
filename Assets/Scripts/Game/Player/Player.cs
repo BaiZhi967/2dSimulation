@@ -14,9 +14,7 @@ namespace WhiteZhi.SimulationGame
 		public float walkSpeed;
 		public Vector2 inputDirection;
 		public Vector2 realDirection;
-
-		public Grid grid;
-		public Tilemap tilemap;
+		
 		public GridController gc;
                        
 		private void Awake()
@@ -27,8 +25,6 @@ namespace WhiteZhi.SimulationGame
 		private void Start()
 		{
 			gc = FindObjectOfType<GridController>();
-			grid = gc.grid;
-			tilemap = gc.digTilemap;
 		}
 
 		private void Update()
@@ -51,6 +47,7 @@ namespace WhiteZhi.SimulationGame
 			playerInput.Enable();
 			playerInput.Game.Use.started += OnPlayerUseTool;
 			playerInput.Game.RightMouse.started += OnPlayerRightMouse;
+			playerInput.Game.Interactive.started += OnPlayerInteractive;
 		}
 
 		private void OnDisable()
@@ -58,6 +55,7 @@ namespace WhiteZhi.SimulationGame
 			playerInput.Disable();
 			playerInput.Game.Use.started -= OnPlayerUseTool;
 			playerInput.Game.RightMouse.started -= OnPlayerRightMouse;
+			playerInput.Game.Interactive.started -= OnPlayerInteractive;
 		}
 
 		///<summary>
@@ -65,23 +63,23 @@ namespace WhiteZhi.SimulationGame
 		/// </summary>
 		private void OnPlayerUseTool(InputAction.CallbackContext obj)
 		{
-			var cellPosition = grid.WorldToCell(transform.position);
-			var tile = tilemap.GetTile(cellPosition);
+			var cellPosition = gc.grid.WorldToCell(transform.position);
+			var tile = gc.digTilemap.GetTile(cellPosition);
 			
 			if (cellPosition.x >= 0 && cellPosition.x < 50 && cellPosition.y >= 0 && cellPosition.y <=50)
 			{
 				if (gc.digGrid[cellPosition.x,cellPosition.y] == null)
 				{
 					//耕地
-					tilemap.SetTile(cellPosition,gc.digTile);
+					gc.digTilemap.SetTile(cellPosition,gc.digTile);
 					gc.digGrid[cellPosition.x,cellPosition.y] = new SoilData();
 				}
 				else if (!gc.digGrid[cellPosition.x,cellPosition.y].hasSeed)
 				{
 					//种植 放种子
-					var pos = grid.CellToWorld(cellPosition);
-					pos.x += grid.cellSize.x * 0.5f;
-					pos.y += grid.cellSize.y * 0.5f;
+					var pos = gc.grid.CellToWorld(cellPosition);
+					pos.x += gc.grid.cellSize.x * 0.5f;
+					pos.y += gc.grid.cellSize.y * 0.5f;
 					ResController.Instance.plantPrefab.Instantiate().Position(pos);
 					gc.digGrid[cellPosition.x, cellPosition.y].hasSeed = true;
 				}
@@ -92,15 +90,32 @@ namespace WhiteZhi.SimulationGame
 
 		private void OnPlayerRightMouse(InputAction.CallbackContext obj)
 		{
-			var cellPosition = grid.WorldToCell(transform.position);
-			var tile = tilemap.GetTile(cellPosition);
-			GridController gc = FindObjectOfType<GridController>();
+			var cellPosition = gc.grid.WorldToCell(transform.position);
+			var tile = gc.digTilemap.GetTile(cellPosition);
 			if (cellPosition.x >= 0 && cellPosition.x < 50 && cellPosition.y >= 0 && cellPosition.y <=50)
 			{
 				if (gc.digGrid[cellPosition.x,cellPosition.y] != null)
 				{
-					tilemap.SetTile(cellPosition,null);
+					gc.digTilemap.SetTile(cellPosition,null);
 					gc.digGrid[cellPosition.x, cellPosition.y] = null;
+				}
+				
+			}
+		}
+
+		private void OnPlayerInteractive(InputAction.CallbackContext obj)
+		{
+			var cellPosition = gc.grid.WorldToCell(transform.position);
+			var tile = gc.waterTilemap.GetTile(cellPosition);
+			if (cellPosition.x >= 0 && cellPosition.x < 50 && cellPosition.y >= 0 && cellPosition.y <=50)
+			{
+				if (gc.digGrid[cellPosition.x,cellPosition.y] != null)
+				{
+					if (!gc.digGrid[cellPosition.x,cellPosition.y].watered)
+					{
+						gc.waterTilemap.SetTile(cellPosition,gc.waterTile);
+						gc.digGrid[cellPosition.x, cellPosition.y].watered = true;
+					}
 				}
 				
 			}
@@ -111,10 +126,10 @@ namespace WhiteZhi.SimulationGame
 		/// </summary>
 		private void UpdateTileSelectPos()
 		{
-			var cellPosition = grid.WorldToCell(transform.position);
-			var pos = grid.CellToWorld(cellPosition);
-			pos.x += grid.cellSize.x * 0.5f;
-			pos.y += grid.cellSize.y * 0.5f;
+			var cellPosition = gc.grid.WorldToCell(transform.position);
+			var pos = gc.grid.CellToWorld(cellPosition);
+			pos.x += gc.grid.cellSize.x * 0.5f;
+			pos.y += gc.grid.cellSize.y * 0.5f;
 			if (cellPosition.x >= 0 && cellPosition.x < 50 && cellPosition.y >= 0 && cellPosition.y <=50)
 			{
 				SelectController.Instance.Position(pos);

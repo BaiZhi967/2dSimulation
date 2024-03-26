@@ -7101,6 +7101,7 @@ MonoBehaviour:
   PrefabFolder: Assets/Art/Prefab
   ArchitectureFullTypeName: 
   digTile: {fileID: 11400000, guid: 52f1921faea570e4b844810340240dad, type: 2}
+  waterTile: {fileID: 11400000, guid: 955a7281013334445b77fc3d4e7b170e, type: 2}
   grid: {fileID: 1100860306}
   digTilemap: {fileID: 304885203}
   waterTilemap: {fileID: 1210964398}

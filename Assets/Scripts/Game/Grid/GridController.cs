@@ -13,6 +13,7 @@ namespace WhiteZhi.SimulationGame
 
 		public EasyGrid<SoilData> digGrid = new EasyGrid<SoilData>(50,50);
 		public TileBase digTile;
+		public TileBase waterTile;
 		
 		private void Awake()
 		{

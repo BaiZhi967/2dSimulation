@@ -4,5 +4,6 @@
     public class SoilData
     {
         public bool hasSeed;
+        public bool watered;
     }
 }
