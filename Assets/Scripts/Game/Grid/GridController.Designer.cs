@@ -1,4 +1,4 @@
-// Generate Id:072b3c10-2f60-49e3-8d8b-9d82b925e8bc
+// Generate Id:80515cc8-067f-4c15-970d-c5645dde5ead
 using UnityEngine;
 
 namespace WhiteZhi.SimulationGame

@@ -3,6 +3,6 @@
     [System.Serializable]
     public class SoilData
     {
-        
+        public bool hasSeed;
     }
 }

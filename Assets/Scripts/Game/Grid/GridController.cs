@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 using QFramework;
 using UnityEngine.Tilemaps;
@@ -7,13 +8,15 @@ namespace WhiteZhi.SimulationGame
 {
 	public partial class GridController : ViewController
 	{
-		
+
+		public Dictionary<Vector2Int, SoilData> soilDatas;
+
 		public EasyGrid<SoilData> digGrid = new EasyGrid<SoilData>(50,50);
 		public TileBase digTile;
 		
 		private void Awake()
 		{
-			
+			LoadTilemap();
 		}
 
 		public void LoadTilemap()

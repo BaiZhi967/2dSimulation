@@ -41,12 +41,14 @@ namespace WhiteZhi.SimulationGame
 		{ 
 			playerInput.Enable();
 			playerInput.Game.Use.started += OnPlayerUseTool;
+			playerInput.Game.RightMouse.started += OnPlayerRightMouse;
 		}
 
 		private void OnDisable()
 		{
 			playerInput.Disable();
 			playerInput.Game.Use.started -= OnPlayerUseTool;
+			playerInput.Game.RightMouse.started -= OnPlayerRightMouse;
 		}
 
 		///<summary>
@@ -56,7 +58,43 @@ namespace WhiteZhi.SimulationGame
 		{
 			var cellPosition = grid.WorldToCell(transform.position);
 			var tile = tilemap.GetTile(cellPosition);
-			tilemap.SetTile(cellPosition,null);
+			GridController gc = FindObjectOfType<GridController>();
+			if (cellPosition.x >= 0 && cellPosition.x < 50 && cellPosition.y >= 0 && cellPosition.y <=50)
+			{
+				if (gc.digGrid[cellPosition.x,cellPosition.y] == null)
+				{
+					//耕地
+					tilemap.SetTile(cellPosition,gc.digTile);
+					gc.digGrid[cellPosition.x,cellPosition.y] = new SoilData();
+				}
+				else if (!gc.digGrid[cellPosition.x,cellPosition.y].hasSeed)
+				{
+					//种植 放种子
+					var pos = grid.CellToWorld(cellPosition);
+					pos.x += grid.cellSize.x * 0.5f;
+					pos.y += grid.cellSize.y * 0.5f;
+					ResController.Instance.plantPrefab.Instantiate().Position(pos);
+					gc.digGrid[cellPosition.x, cellPosition.y].hasSeed = true;
+				}
+				
+			}
+			
+		}
+
+		private void OnPlayerRightMouse(InputAction.CallbackContext obj)
+		{
+			var cellPosition = grid.WorldToCell(transform.position);
+			var tile = tilemap.GetTile(cellPosition);
+			GridController gc = FindObjectOfType<GridController>();
+			if (cellPosition.x >= 0 && cellPosition.x < 50 && cellPosition.y >= 0 && cellPosition.y <=50)
+			{
+				if (gc.digGrid[cellPosition.x,cellPosition.y] != null)
+				{
+					tilemap.SetTile(cellPosition,null);
+					gc.digGrid[cellPosition.x, cellPosition.y] = null;
+				}
+				
+			}
 		}
 		
 		/// <summary>
