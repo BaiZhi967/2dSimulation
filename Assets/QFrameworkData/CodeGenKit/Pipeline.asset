@@ -20,10 +20,10 @@ MonoBehaviour:
     NameToFullName: []
     BindInfos: []
     ScriptsFolder: Assets/Scripts/Game
-    ClassName: ResController
+    ClassName: SelectController
     Namespace: WhiteZhi.SimulationGame
     MainCode: "using UnityEngine;\r\nusing QFramework;\r\n\r\nnamespace WhiteZhi.SimulationGame\r\n{\r\n\tpublic
-      partial class ResController : ViewController\r\n\t{\r\n\t\tvoid Start()\r\n\t\t{\r\n\t\t\t//
+      partial class SelectController : ViewController\r\n\t{\r\n\t\tvoid Start()\r\n\t\t{\r\n\t\t\t//
       Code Here\r\n\t\t}\r\n\t}\r\n}\r\n"
-    DesignerCode: "// Generate Id:ee5392bd-12bb-44a8-9588-a53070c88bff\r\nusing UnityEngine;\r\n\r\nnamespace
-      WhiteZhi.SimulationGame\r\n{\r\n\tpublic partial class ResController\r\n\t{\r\n\r\n\t}\r\n}\r\n"
+    DesignerCode: "// Generate Id:51d2f34a-a33c-45bb-9f91-d315d3d30b23\r\nusing UnityEngine;\r\n\r\nnamespace
+      WhiteZhi.SimulationGame\r\n{\r\n\tpublic partial class SelectController\r\n\t{\r\n\r\n\t}\r\n}\r\n"

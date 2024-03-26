@@ -17,10 +17,18 @@ namespace WhiteZhi.SimulationGame
 
 		public Grid grid;
 		public Tilemap tilemap;
+		public GridController gc;
                        
 		private void Awake()
 		{
 			playerInput = new PlayerInput();
+		}
+
+		private void Start()
+		{
+			gc = FindObjectOfType<GridController>();
+			grid = gc.grid;
+			tilemap = gc.digTilemap;
 		}
 
 		private void Update()
@@ -28,7 +36,8 @@ namespace WhiteZhi.SimulationGame
 			//获取玩家移动输入
 			inputDirection = playerInput.Game.Move.ReadValue<Vector2>();
 
-			
+			//TileSelect位置更新
+			UpdateTileSelectPos();
 		}
 
 
@@ -58,7 +67,7 @@ namespace WhiteZhi.SimulationGame
 		{
 			var cellPosition = grid.WorldToCell(transform.position);
 			var tile = tilemap.GetTile(cellPosition);
-			GridController gc = FindObjectOfType<GridController>();
+			
 			if (cellPosition.x >= 0 && cellPosition.x < 50 && cellPosition.y >= 0 && cellPosition.y <=50)
 			{
 				if (gc.digGrid[cellPosition.x,cellPosition.y] == null)
@@ -95,6 +104,27 @@ namespace WhiteZhi.SimulationGame
 				}
 				
 			}
+		}
+
+		/// <summary>
+		/// 更新TileSelect位置
+		/// </summary>
+		private void UpdateTileSelectPos()
+		{
+			var cellPosition = grid.WorldToCell(transform.position);
+			var pos = grid.CellToWorld(cellPosition);
+			pos.x += grid.cellSize.x * 0.5f;
+			pos.y += grid.cellSize.y * 0.5f;
+			if (cellPosition.x >= 0 && cellPosition.x < 50 && cellPosition.y >= 0 && cellPosition.y <=50)
+			{
+				SelectController.Instance.Position(pos);
+				SelectController.Instance.Show();
+			}
+			else
+			{
+				SelectController.Instance.Hide();
+			}
+			
 		}
 		
 		/// <summary>
