@@ -20,6 +20,26 @@ namespace WhiteZhi.SimulationGame
 		private void Awake()
 		{
 			playerInput = new PlayerInput();
+
+			Global.Days.Register(i =>
+			{
+				
+				
+				PlantController.Instance.plants.ForEach((x, y, plant) =>
+				{
+					if (plant is not null)
+					{
+						if (plant.State == PlantStates.Seed)
+						{
+							if (gc.digGrid[x,y].watered)
+							{
+								//植物生长
+							}
+						}
+					}
+				});
+				
+			});
 		}
 
 		private void Start()
@@ -80,7 +100,10 @@ namespace WhiteZhi.SimulationGame
 					var pos = gc.grid.CellToWorld(cellPosition);
 					pos.x += gc.grid.cellSize.x * 0.5f;
 					pos.y += gc.grid.cellSize.y * 0.5f;
-					ResController.Instance.plantPrefab.Instantiate().Position(pos);
+					var plant = ResController.Instance.plantPrefab.Instantiate().Position(pos);
+					var pb = plant.GetComponent<PlantBase>();
+					pb.cell = new Vector2Int(cellPosition.x, cellPosition.y);
+					PlantController.Instance.plants[cellPosition.x, cellPosition.y] = plant.GetComponent<PlantBase>();
 					gc.digGrid[cellPosition.x, cellPosition.y].hasSeed = true;
 				}
 				

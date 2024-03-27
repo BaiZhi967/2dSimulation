@@ -5,5 +5,6 @@
     {
         public bool hasSeed;
         public bool watered;
+        public PlantStates plantState = PlantStates.Seed;
     }
 }

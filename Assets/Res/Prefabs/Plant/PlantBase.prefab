@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 878433503394509998}
   - component: {fileID: 2509852582260843526}
+  - component: {fileID: 1511414985779036270}
   m_Layer: 0
   m_Name: PlantBase
   m_TagString: Untagged
@@ -84,3 +85,21 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &1511414985779036270
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1659200638692088470}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5fd199e0f5a22874184ffa0dbf1815d2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Namespace: WhiteZhi.SimulationGame
+  ScriptName: PlantBase
+  ScriptsFolder: Assets/Scripts/Game
+  GeneratePrefab: 0
+  PrefabFolder: Assets/Art/Prefab
+  ArchitectureFullTypeName: 
